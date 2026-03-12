@@ -1,0 +1,143 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Prueba Técnica API",
+        "description": "Documentación de la prueba técnica de CRUD de pagos",
+        "contact": {
+            "email": "soporte@hitch.cl"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/punto-extra": {
+            "get": {
+                "summary": "Consumir API externa JSONPlaceholder",
+                "operationId": "e6c93f17b012bb5dd36f6dfcdadd4ffb",
+                "responses": {
+                    "200": {
+                        "description": "Muestra los usuarios de la API externa"
+                    }
+                }
+            }
+        },
+        "/pagos": {
+            "get": {
+                "summary": "Listado de pagos",
+                "operationId": "4dac88da522270590494fb1f3b29a89e",
+                "responses": {
+                    "200": {
+                        "description": "Muestra el listado de todos los pagos"
+                    }
+                }
+            }
+        },
+        "/pagos/guardar": {
+            "post": {
+                "summary": "Almacenar un nuevo pago",
+                "operationId": "bf4097b18595a582cb612cf02635d663",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type": "number"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "302": {
+                        "description": "Redirección al listado con éxito o error"
+                    }
+                }
+            }
+        },
+        "/pagos/editar/{id}": {
+            "get": {
+                "summary": "Mostrar formulario de edición",
+                "operationId": "38861f543fa3299b9e05f40f958de8dd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Muestra la vista de edición"
+                    }
+                }
+            }
+        },
+        "/pagos/actualizar/{id}": {
+            "put": {
+                "summary": "Actualizar un pago existente",
+                "operationId": "81bab0b40975cf02a463a711741e1528",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type": "number"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "302": {
+                        "description": "Redirección tras actualizar"
+                    }
+                }
+            }
+        },
+        "/pagos/eliminar/{id}": {
+            "delete": {
+                "summary": "Eliminar un pago",
+                "operationId": "fb74da978d4244ae1bd404255a90dfa6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "Redirección tras eliminar"
+                    }
+                }
+            }
+        }
+    }
+}

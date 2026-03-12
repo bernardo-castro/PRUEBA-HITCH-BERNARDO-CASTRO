@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class PaymentsController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/pagos",
+     *     summary="Listado de pagos",
+     *     @OA\Response(response="200", description="Muestra el listado de todos los pagos"),
+     * )
+     */
     public function index()
     {
         $payments = Payment::all();
@@ -18,6 +25,19 @@ class PaymentsController extends Controller
         return view('payments.create');
     }
 
+    /**
+     * @OA\Post(
+     *     path="/pagos/guardar",
+     *     summary="Almacenar un nuevo pago",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(property="price", type="number")
+     *         )
+     *     ),
+     *     @OA\Response(response="302", description="Redirección al listado con éxito o error"),
+     * )
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -33,6 +53,14 @@ class PaymentsController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/pagos/editar/{id}",
+     *     summary="Mostrar formulario de edición",
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response="200", description="Muestra la vista de edición"),
+     * )
+     */
     public function edit($id)
     {
         try {
@@ -46,6 +74,20 @@ class PaymentsController extends Controller
         }
     }
 
+    /**
+     * @OA\Put(
+     *     path="/pagos/actualizar/{id}",
+     *     summary="Actualizar un pago existente",
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(property="price", type="number")
+     *         )
+     *     ),
+     *     @OA\Response(response="302", description="Redirección tras actualizar"),
+     * )
+     */
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -65,6 +107,14 @@ class PaymentsController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/pagos/eliminar/{id}",
+     *     summary="Eliminar un pago",
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response="302", description="Redirección tras eliminar"),
+     * )
+     */
     public function destroy($id)
     {
         try {
