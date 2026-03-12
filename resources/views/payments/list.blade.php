@@ -40,11 +40,13 @@
                                 <div class="btn-group">
                                     <a href="{{ route('payments-edit', $payment->id) }}"
                                         class="btn btn-sm btn-warning">Editar</a>
-                                    <form action="{{ route('payments-destroy', $payment->id) }}" method="POST" style="display: inline-block;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar este pago?')">Eliminar</button>
-                                    </form>
+                                    <button type="button" class="btn btn-sm btn-danger" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#deleteModal" 
+                                        data-id="{{ $payment->id }}"
+                                        data-url="{{ route('payments-destroy', $payment->id) }}">
+                                        Eliminar
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -54,7 +56,41 @@
         </div>
     </div>
 
+    <!-- Modal de Confirmación de Eliminación -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de que deseas eliminar este pago? Esta acción no se puede deshacer.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <form id="deleteForm" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Eliminar Definitivamente</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         $('#table').DataTable();
+
+        // Manejo dinámico del modal de eliminación
+        const deleteModal = document.getElementById('deleteModal');
+        if (deleteModal) {
+            deleteModal.addEventListener('show.bs.modal', event => {
+                const button = event.relatedTarget;
+                const url = button.getAttribute('data-url');
+                const form = deleteModal.querySelector('#deleteForm');
+                form.setAttribute('action', url);
+            });
+        }
     </script>
 @endsection
