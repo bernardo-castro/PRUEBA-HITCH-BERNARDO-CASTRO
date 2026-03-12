@@ -28,9 +28,9 @@ Siga estos pasos detalladamente para ejecutar la aplicación en su entorno local
    php artisan key:generate
    ```
 
-5. **Ejecutar migraciones:**
+5. **Ejecutar migraciones y carga de datos (Seeder):**
    ```bash
-   php artisan migrate
+   php artisan migrate --seed
    ```
 
 6. **Generar documentación Swagger:**
