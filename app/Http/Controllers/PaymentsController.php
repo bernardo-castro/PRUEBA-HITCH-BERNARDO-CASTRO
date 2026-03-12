@@ -43,6 +43,11 @@ class PaymentsController extends Controller
         $request->validate([
             'description' => 'required|string|max:255',
             'price'       => 'required|numeric|min:0',
+        ], [
+            'description.required' => 'El campo descripción es obligatorio.',
+            'price.required'       => 'El campo precio es obligatorio.',
+            'price.numeric'        => 'El campo precio debe ser un número.',
+            'price.min'            => 'El campo precio debe ser al menos 0.',
         ]);
 
         try {
@@ -93,6 +98,11 @@ class PaymentsController extends Controller
         $request->validate([
             'description' => 'required|string|max:255',
             'price'       => 'required|numeric|min:0',
+        ], [
+            'description.required' => 'El campo descripción es obligatorio.',
+            'price.required'       => 'El campo precio es obligatorio.',
+            'price.numeric'        => 'El campo precio debe ser un número.',
+            'price.min'            => 'El campo precio debe ser al menos 0.',
         ]);
 
         try {

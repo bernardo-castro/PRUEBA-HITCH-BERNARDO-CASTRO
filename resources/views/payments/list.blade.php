@@ -10,24 +10,41 @@
         <br>
         <br>
         <hr>
-        @if (session()->has('alert-success'))
-            <div class="alert alert-success" role="alert">
-                {!! session()->get('alert-success') !!}
-            </div>
-        @endif
-        @if (session('alert-error'))
-            <div class="alert alert-danger" role="alert">
-                {!! session('alert-error') !!}
-            </div>
-        @endif
+        <script>
+            @if (session('alert-success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Éxito!',
+                    text: '{{ session('alert-success') }}',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            @endif
+
+            @if (session('alert-error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: '{{ session('alert-error') }}',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 5000,
+                    timerProgressBar: true
+                });
+            @endif
+        </script>
         <div class="col-md-12">
             <table class="table table-bordered" id="table">
                 <thead>
                     <tr>
                         <th class="text-center">ID</th>
-                        <th class="text-center">DESCRIPCION</th>
-                        <th class="text-center">PRECIO</th>
-                        <th class="text-center">ACCIÓN</th>
+                        <th class="text-center">Descripción</th>
+                        <th class="text-center">Precio</th>
+                        <th class="text-center">Acción</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,7 +73,6 @@
         </div>
     </div>
 
-    <!-- Modal de Confirmación de Eliminación -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -80,15 +96,18 @@
     </div>
 
     <script>
-        $('#table').DataTable();
+        $('#table').DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/2.1.6/i18n/es-ES.json'
+            }
+        });
 
-        // Manejo dinámico del modal de eliminación
-        const deleteModal = document.getElementById('deleteModal');
-        if (deleteModal) {
-            deleteModal.addEventListener('show.bs.modal', event => {
+        const deleteModalStr = document.getElementById('deleteModal');
+        if (deleteModalStr) {
+            deleteModalStr.addEventListener('show.bs.modal', event => {
                 const button = event.relatedTarget;
                 const url = button.getAttribute('data-url');
-                const form = deleteModal.querySelector('#deleteForm');
+                const form = deleteModalStr.querySelector('#deleteForm');
                 form.setAttribute('action', url);
             });
         }

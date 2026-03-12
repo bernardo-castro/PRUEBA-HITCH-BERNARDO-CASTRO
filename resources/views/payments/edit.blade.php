@@ -10,25 +10,55 @@
         <br>
         <br>
         <hr>
-        <div class="col-md-12">
-            {{-- MUESTRA ERRORES DE VALIDACION --}}
-            @if ($errors->any())
-                @php
-                    $errorMessages = implode('<br>', $errors->all());
-                    $error = 'Se encontraron los siguientes errores: <br>' . $errorMessages;
-                @endphp
-                <div class="alert alert-danger" role="alert">
-                    {!! $error !!}
-                </div>
+        
+        <script>
+            @if (session('alert-success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Éxito!',
+                    text: '{{ session('alert-success') }}',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
             @endif
 
-            {{-- MUESTRA ERRORES PERSONALIZADOS --}}
             @if (session('alert-error'))
-                <div class="alert alert-danger" role="alert">
-                    {!! session('alert-error') !!}
-                </div>
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: '{!! session('alert-error') !!}',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 5000,
+                    timerProgressBar: true
+                });
             @endif
-            
+
+            @if ($errors->any())
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Se encontraron errores:',
+                    html: '{!! implode('<br>', $errors->all()) !!}',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 5000,
+                    timerProgressBar: true
+                });
+
+                document.addEventListener('DOMContentLoaded', () => {
+                    const firstErrorField = '{{ $errors->keys()[0] }}';
+                    const element = document.getElementsByName(firstErrorField)[0];
+                    if (element) element.focus();
+                });
+            @endif
+        </script>
+        
+        <div class="col-md-12">
             <form action="{{ route('payments-update', $payment->id) }}" method="POST">
                 @csrf
                 @method('PUT')

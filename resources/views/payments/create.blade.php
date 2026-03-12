@@ -10,25 +10,55 @@
         <br>
         <br>
         <hr>
-        <div class="col-md-12">
-            {{-- MUESTRA ERRORES DE VALIDACION --}}
-            @if ($errors->any())
-                @php
-                    $errorMessages = implode('<br>', $errors->all()); // Usar <br> para separar los mensajes de error
-                    $error = 'Se encontraron los siguientes errores: <br>' . $errorMessages;
-                @endphp
-                <div class="alert alert-danger" role="alert">
-                    {!! $error !!}
-                </div>
+        
+        <script>
+            @if (session('alert-success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Éxito!',
+                    text: '{{ session('alert-success') }}',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
             @endif
 
-            {{-- MUESTRA ERRORES PERSONALIZADOS --}}
             @if (session('alert-error'))
-                <div class="alert alert-danger" role="alert">
-                    {!! session('alert-error') !!}
-                </div>
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: '{!! session('alert-error') !!}',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 5000,
+                    timerProgressBar: true
+                });
             @endif
-            
+
+            @if ($errors->any())
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Se encontraron errores:',
+                    html: '{!! implode('<br>', $errors->all()) !!}',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 5000,
+                    timerProgressBar: true
+                });
+
+                document.addEventListener('DOMContentLoaded', () => {
+                    const firstErrorField = '{{ $errors->keys()[0] }}';
+                    const element = document.getElementsByName(firstErrorField)[0];
+                    if (element) element.focus();
+                });
+            @endif
+        </script>
+        
+        <div class="col-md-12">
             <form action="{{ route('payments-store') }}" method="POST">
                 @csrf
                 <div class="row">
@@ -36,14 +66,14 @@
                         <div class="form-group">
                             <label for="description">Descripción</label>
                             <input type="text" name="description" id="description" class="form-control"
-                                placeholder="descripcion...">
+                                placeholder="descripcion..." value="{{ old('description') }}">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="price">Precio</label>
                             <input type="number" name="price" id="price" class="form-control"
-                                placeholder="precio...">
+                                placeholder="precio..." value="{{ old('price') }}">
                         </div>
                     </div>
                 </div>
