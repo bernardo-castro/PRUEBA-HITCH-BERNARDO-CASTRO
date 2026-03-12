@@ -8,7 +8,7 @@ Siga estos pasos detalladamente para ejecutar la aplicación en su entorno local
 
 1. **Clonar el repositorio:**
    ```bash
-   git clone https://github.com/bernardo-castro/PRUEBA-HITCH-BERNARDO-CASTRO.git
+   git clone [URL_DEL_REPOSITORIO]
    cd PRUEBA-HITCH-BERNARDO-CASTRO
    ```
 
