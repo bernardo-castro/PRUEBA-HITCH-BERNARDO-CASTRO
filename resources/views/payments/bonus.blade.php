@@ -35,7 +35,7 @@
                         <tr>
                             <td class="text-center">{{ $user['id'] }}</td>
                             <td>{{ $user['name'] }}</td>
-                            <td>{{ $user['email'] }}</td>
+                            <td>{{ strtolower($user['email']) }}</td>
                             <td>{{ $user['phone'] }}</td>
                             <td>{{ $user['company']['name'] }}</td>
                         </tr>
